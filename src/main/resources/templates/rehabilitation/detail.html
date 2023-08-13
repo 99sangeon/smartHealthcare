@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>재활 기록</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        var chartData = /*[[${rehabilitation.biometrics}]]*/ [];
+        var biometricAvg = /*[[${rehabilitation.biometricAvg}]]*/ [];
+
+        function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('datetime', 'time');
+            data.addColumn('number', '체온');
+            data.addColumn({type: 'string', role: 'style'}); // Additional column for style
+            data.addColumn('number', 'BPM');
+            data.addColumn({type: 'string', role: 'style'}); // Additional column for style
+            data.addColumn('number', '산소포화도');
+            data.addColumn({type: 'string', role: 'style'}); // Additional column for style
+
+            var temperatureAvg = biometricAvg.temperatureAvg;
+            var bpmAvg = biometricAvg.bpmAvg;
+            var oxygenSaturationAvg = biometricAvg. oxygenSaturationAvg;
+
+            for (var i = 0; i < chartData.length; i++) {
+
+                var style = 'point { size: 10; shape-type: star; fill-color: #FF0000; }';
+
+                var time = new Date(chartData[i].createdDate);
+                var temperature = chartData[i].temperature;
+                var bpm = chartData[i].bpm;
+                var oxygenSaturation = chartData[i].oxygenSaturation;
+
+                var temperatureStyle= null;
+                var bpmStyle= null;
+                var oxygenSaturationStyle= null;
+
+                if(temperature >= temperatureAvg + 1 || temperature <= temperatureAvg - 1) {
+                    temperatureStyle = 'point { size: 8; shape-type: star; fill-color: black; }';
+                }
+
+                if(bpm >= bpmAvg + 5 || bpm <= bpmAvg - 5) {
+                    bpmStyle = 'point { size: 8; shape-type: star; fill-color: black; }';
+                }
+
+                if(oxygenSaturation >= oxygenSaturationAvg + 2 || oxygenSaturation <= oxygenSaturationAvg - 2) {
+                    oxygenSaturationStyle = 'point { size: 8; shape-type: star; fill-color: black; }';
+                }
+
+                data.addRow([{v: time, f: formatDate(time)}, temperature, temperatureStyle, bpm , bpmStyle, oxygenSaturation, oxygenSaturationStyle]);
+
+            }
+
+            var options = {
+                title: '생체정보차트' + '(평균 체온 : ' + temperatureAvg + ', 평균 BPM : ' + bpmAvg + ', 평균 산소포화도 : ' + oxygenSaturationAvg + ')',
+                curveType: 'function',
+                legend: { position: 'bottom' },
+                vAxis: {
+                    title:'Values',
+                    viewWindowMode:'explicit',
+                    viewWindow: {
+                        min: 0,
+                        max: 100
+                    }
+                },
+                pointSize:5,
+                hAxis: {
+                    title:'Times',
+                    format: 'yyyy-MM-dd HH:mm:ss',  // 원하는 포맷 설정
+                    gridlines: {count: 7}
+                }
+            };
+
+
+            var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            chart.draw(data, options);
+        }
+
+        // 포맷을 지정할 함수
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 100px; margin-bottom: 50px">
+        <h1>재활 상세 정보</h1>
+    </div>
+    <div style="display: flex; justify-content: center;" th:object="${rehabilitation}">
+        <div style="margin-right: 100px;">
+            <h3 style="margin-bottom: 7px">환자 정보</h3>
+            <table th:object="${rehabilitation.patient}">
+                <tr>
+                    <td>환자 ID</td>
+                    <td th:text="*{id}"></td>
+                </tr>
+                <tr>
+                    <td>이름</td>
+                    <td th:text="*{name}"></td>
+                </tr>
+                <tr>
+                    <td>나이</td>
+                    <td th:text="*{age+ '세'}"></td>
+                </tr>
+                <tr>
+                    <td>생년월일</td>
+                    <td th:text="*{birthday}"></td>
+                </tr>
+                <tr>
+                    <td>성별</td>
+                    <td th:text="*{gender.getValue()}"></td>
+                </tr>
+                <tr>
+                    <td>키</td>
+                    <td th:text="*{height + 'cm'}"></td>
+                </tr>
+                <tr>
+                    <td>몸무게</td>
+                    <td th:text="*{weight + 'kg'}"></td>
+                </tr>
+                <tr>
+                    <td>전화번호</td>
+                    <td th:text="*{mobile}"></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h3 style="margin-bottom: 7px">재활 정보</h3>
+            <table>
+                <tr>
+                    <td>재활 ID</td>
+                    <td th:text="*{id}"></td>
+                </tr>
+                <tr>
+                    <td>시작 시간</td>
+                    <td th:text="${#temporals.format(rehabilitation.startTime, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td>종료 시간</td>
+                    <td th:text="${#temporals.format(rehabilitation.endTime, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td>목표 재활 시간</td>
+                    <td th:text="*{goalTime + '분'}"></td>
+                </tr>
+                <tr>
+                    <td>실제 재활 시간</td>
+                    <td th:text="*{actualTime + '분'}"></td>
+                </tr>
+                <tr>
+                    <td>남은 재활 시간</td>
+                    <td th:text="*{remainingTime + '분'}"></td>
+                </tr>
+                <tr>
+                    <td>재활 거리</td>
+                    <td th:text="*{travelRange + 'm'}"></td>
+                </tr>
+                <tr>
+                    <td>소모 칼로리</td>
+                    <td th:text="*{consumedCalories +'Kcal'}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="curve_chart" style="width: 80rem; height: 50rem; margin: auto;"></div>
+</body>
+</html>

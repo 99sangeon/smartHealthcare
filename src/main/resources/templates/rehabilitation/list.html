@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>재활 목록</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main>
+
+  <div style="text-align: center; margin-top: 100px; margin-bottom: 20px">
+    <h1>재활 목록</h1>
+  </div>
+  <table class="rehabilitation_table">
+    <thead>
+      <tr>
+        <th>재활 ID</th>
+        <th>이름</th>
+        <th>나이</th>
+        <th>생년월일</th>
+        <th>성별</th>
+        <th>시작 시간</th>
+        <th>종료 시간</th>
+        <th>재활 상태</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="rehabilitation : ${rehabilitations}"
+          th:onclick="|location.href='@{/rehabilitations/{rehabilitationId}(rehabilitationId=${rehabilitation.id})}'|">
+        <td th:text="${rehabilitation.id}">재활 ID</td>
+        <td th:text="${rehabilitation.patientResponse.name}">이름</td>
+        <td th:text="${rehabilitation.patientResponse.age}">나이</td>
+        <td th:text="${rehabilitation.patientResponse.birthday}">생년월일</td>
+        <td th:text="${rehabilitation.patientResponse.gender.getValue()}">성별</td>
+        <td th:text="${#temporals.format(rehabilitation.startTime, 'yyyy-MM-dd HH:mm')}">시작 시간</td>
+        <td th:text="${#temporals.format(rehabilitation.endTime, 'yyyy-MM-dd HH:mm')}">종료 시간</td>
+        <td th:text="${rehabilitation.rehabilitationStatus.getValue()}">재활 상태</td>
+      </tr>
+    </tbody>
+  </table>
+
+</main>
+
+</body>
+</html>

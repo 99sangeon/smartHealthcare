@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<main>
+    <div style="text-align: center;">
+        <h1>환자 등록</h1>
+    </div>
+    <div class="patient_registry">
+        <form th:action th:method="post" th:object="${patient}" name="patient">
+            <div>
+                <div class="error_message" th:errors="*{name}">이름 입력 오류 메시지</div>
+                <div><label for="name">이름</label></div>
+                <div> <input type="text" placeholder="이름" th:field="*{name}" id=name></div>
+            </div>
+            <div>
+                <div class="error_message" th:errors="*{age}">나이 입력 오류 메시지</div>
+                <div><label for="age">나이</label></div>
+                <div><input type="text" placeholder="나이" th:field="*{age}" id="age"></div>
+
+            </div>
+            <div>
+                <div class="error_message" th:errors="*{birthday}">생년월일 입력 오류 메시지</div>
+                <div><label for="birthday">생년월일</label></div>
+                <div><input type="date" th:field="*{birthday}" id="birthday"></div>
+            </div>
+            <div>
+                <div class="error_message" th:errors="*{height}">키 오류 메시지</div>
+                <div><label for="height">키(신장)</label></div>
+                <div><input type="text" placeholder="cm" th:field="*{height}" id="height"></div>
+            </div>
+            <div>
+                <div class="error_message" th:errors="*{weight}">몸무게 오류 메시지</div>
+                <div><label for="weight">몸무게</label></div>
+                <div><input type="text"placeholder="kg" th:field="*{weight}" id="weight"></div>
+            </div>
+            <div>
+                <div class="error_message" th:errors="*{gender}">성별 오류 메시지</div>
+                <div><label>성별</label></div>
+                <div style="display: inline-block;" th:each="gender : ${genders}">
+                    <input style="width: 16px; height: 16px;" type="radio" th:field="*{gender}" th:value="${gender.name()}">
+                    <label th:for="${#ids.prev('gender')}" th:text="${gender.getValue()}"></label>
+                </div>
+            </div>
+            <div>
+                <div class="error_message" th:errors="*{mobile}">전화번호 오류 메시지</div>
+                <div><label for="mobile">전화번호</label></div>
+                <div><input type="text" placeholder="ex) 01073074546" th:field="*{mobile}" id="mobile"></div>
+            </div>
+            <div>
+                <input class="submit_btn" type="submit">
+            </div>
+        </form>
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/walkerPrj?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: '0204'
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 500
+
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+
+fcm :
+  target-token: cwu4d_saT62q0e2HiYVjP5:APA91bH6SRskfvBoJrLRQEff4ZHgC2X8a2LyXrR8r9JoSnnCNGL3LDRFeC1KxU_YxDUMZPFdhEZ2rEUIyPNg0v2bk0dwHwhbhHd5_AjsQLUuSjjD33aIU2r9rWea7BpP8HsIz1TBNpPr

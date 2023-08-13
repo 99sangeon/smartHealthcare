@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>스마트 헬스케어</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body class="mainBody">
+
+<main class="home">
+    <div class="projectInfo">
+        <img src="/image/silverfox_logo.png">
+        <span>스마트 보행보조차 헬스케어 시스템</span>
+    </div>
+    <div class="contentList">
+        <ul>
+            <li><a href="/patients/registry">환자관리</a></li>
+            <li><a href="#">장치관리</a></li>
+            <li><a href="/rehabilitations">재활관리</a></li>
+        </ul>
+    </div>
+</main>
+</body>
+
+</html>
