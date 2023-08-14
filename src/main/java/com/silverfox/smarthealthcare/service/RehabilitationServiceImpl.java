@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -108,8 +109,31 @@ public class RehabilitationServiceImpl implements RehabilitationService{
         rehabilitation.setActualTime(rehabilitation.getGoalTime() - endRequest.getRemainingTime());
         rehabilitation.setSlope(endRequest.getSlope());
         rehabilitation.setTravelRange(endRequest.getTravelRange());
-        rehabilitation.setSpeed(rehabilitation.getTravelRange() / rehabilitation.getActualTime());
+        if(rehabilitation.getActualTime() != 0) {
+            rehabilitation.setSpeed(rehabilitation.getTravelRange() / rehabilitation.getActualTime());
+        }
+        else {
+            rehabilitation.setSpeed(rehabilitation.getTravelRange() / 1);
+        }
         rehabilitation.setConsumedCalories(calculateConsumedCalories(rehabilitation.getSpeed(), rehabilitation.getSlope(), patient.getWeight()));
+
+    }
+
+    @Override
+    public RehabilitationAvgResponse getRehabilitationAvg(Long id, int compareCnt) {
+
+        Rehabilitation rehabilitation = rehabilitationRepository.findById(id)
+                .orElseThrow(() -> new RehabilitationNotFoundException(id));
+
+        Optional<RehabilitationAvgResponse> rehabilitationAvg = rehabilitationRepositoryCustom.findRehabilitationAvg(rehabilitation, compareCnt);
+
+        if(rehabilitationAvg.isEmpty()) {
+            RehabilitationAvgResponse r = new RehabilitationAvgResponse();
+            r.setBiometricAvg(new BiometricAvgResponse(0f,0f,0f));
+            return r;
+        }
+
+       return rehabilitationAvg.get();
 
     }
 

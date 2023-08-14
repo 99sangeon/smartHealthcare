@@ -9,10 +9,12 @@
     <script th:inline="javascript">
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(getAvg);
 
+        var nowRehab = /*[[${rehabilitation}]]*/ [];
         var chartData = /*[[${rehabilitation.biometrics}]]*/ [];
         var biometricAvg = /*[[${rehabilitation.biometricAvg}]]*/ [];
-
+        var rehabilitationId = /*[[${rehabilitation.id}]]*/ '';
 
         function drawChart() {
             var data = new google.visualization.DataTable();
@@ -94,6 +96,49 @@
 
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         }
+
+        function getAvg() {
+            var compareCnt = document.getElementById("compare_cnt").value;
+
+            // AJAX 요청을 보내는 코드
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:8080/rehabilitations/" + rehabilitationId + "/calculate-averages/" + compareCnt, true);  // API 엔드포인트 URL을 여기에 입력
+            xhr.onreadystatechange = function() {
+                if (xhr.status === 200) {
+                    var result = xhr.response;
+                    console.log(result);
+                    drawComboChart(result);
+                }
+                else {
+                    alert("데이터를 불러오지 못 했습니다. 다시한번 시도해주세요");
+                }
+            };
+            xhr.send();
+        }
+
+        function drawComboChart(result) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'desc');
+            data.addColumn('number', '평균 체온');
+            data.addColumn('number', '평균 BPM');
+            data.addColumn('number', '평균 산소포화도');
+
+            data.addRow(['과거', result.biometricAvg.temperatureAvg, result.biometricAvg.bpmAvg, result.biometricAvg.oxygenSaturationAvg]);
+            data.addRow(['현재', nowRehab.biometricAvg.temperatureAvg, nowRehab.biometricAvg.bpmAvg, nowRehab.biometricAvg.oxygenSaturationAvg]);
+
+
+            var options = {
+                title : '최근 ' + parseInt(document.getElementById("compare_cnt").value) + '개 재활 평균',
+                vAxis: {title: 'Values'},
+                hAxis: {title: 'Compare'},
+                seriesType: 'bars',
+                series: {5: {type: 'line'}}
+            };
+
+            var chart = new google.visualization.ComboChart(document.getElementById('combo_chart'));
+            chart.draw(data, options);
+        }
+
     </script>
 </head>
 <body>
@@ -179,23 +224,33 @@
 
     <div id="curve_chart" style="width: 80rem; height: 50rem; margin: auto;"></div>
 
-        <div class="avgRange">
-            <div>
-                <label for="tempAvgRange">체온 이상치 범위</label>
-                <input id="tempAvgRange" type="text" value="3">
-            </div>
-            <div style="margin-left: 20px">
-                <label for="bpmAvgRange">BPM 이상치 범위</label>
-                <input id="bpmAvgRange" type="text" value="10">
-            </div>
-            <div style="margin-left: 20px">
-                <label for="oxygenAvgRange">산소포화도 이상치 범위</label>
-                <input id="oxygenAvgRange" type="text" value="3">
-            </div>
-            <div style="margin-left: 20px">
-                <button onclick="drawChart();">설정하기</button>
-            </div>
+    <div class="avgRange">
+        <div>
+            <label for="tempAvgRange">체온 이상치 범위</label>
+            <input id="tempAvgRange" type="text" value="3">
         </div>
+        <div style="margin-left: 20px">
+            <label for="bpmAvgRange">BPM 이상치 범위</label>
+            <input id="bpmAvgRange" type="text" value="10">
+        </div>
+        <div style="margin-left: 20px">
+            <label for="oxygenAvgRange">산소포화도 이상치 범위</label>
+            <input id="oxygenAvgRange" type="text" value="3">
+        </div>
+        <div style="margin-left: 20px">
+            <button onclick="drawChart();">조회하기</button>
+        </div>
+    </div>
+
+    <div>
+        <div id="combo_chart" style="width: 80rem; height: 50rem; margin: auto;"></div>
+        <div>
+            <label>비교 재활 개수</label>
+            <input id="compare_cnt" value="1">
+            <button id="compare_btn" onclick="getAvg()">조회하기</button>
+        </div>
+    </div>
+
 
 
 </body>

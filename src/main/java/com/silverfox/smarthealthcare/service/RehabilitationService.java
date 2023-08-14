@@ -1,9 +1,6 @@
 package com.silverfox.smarthealthcare.service;
 
-import com.silverfox.smarthealthcare.dto.RehabilitationEndRequest;
-import com.silverfox.smarthealthcare.dto.RehabilitationInitialRequest;
-import com.silverfox.smarthealthcare.dto.RehabilitationResponse;
-import com.silverfox.smarthealthcare.dto.RehabilitationSimpleResponse;
+import com.silverfox.smarthealthcare.dto.*;
 
 import java.util.List;
 
@@ -19,4 +16,5 @@ public interface RehabilitationService {
 
     void rehabilitationEnd(Long id,  RehabilitationEndRequest endRequest);
 
+    RehabilitationAvgResponse getRehabilitationAvg(Long id, int compareCnt);
 }

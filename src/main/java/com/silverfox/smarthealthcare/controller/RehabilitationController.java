@@ -1,9 +1,6 @@
 package com.silverfox.smarthealthcare.controller;
 
-import com.silverfox.smarthealthcare.dto.RehabilitationEndRequest;
-import com.silverfox.smarthealthcare.dto.RehabilitationInitialRequest;
-import com.silverfox.smarthealthcare.dto.RehabilitationResponse;
-import com.silverfox.smarthealthcare.dto.RehabilitationSimpleResponse;
+import com.silverfox.smarthealthcare.dto.*;
 import com.silverfox.smarthealthcare.entity.Rehabilitation;
 import com.silverfox.smarthealthcare.service.BiometricService;
 import com.silverfox.smarthealthcare.service.RehabilitationService;
@@ -46,6 +43,14 @@ public class RehabilitationController {
         return "/rehabilitation/detail";
     }
 
+    @ResponseBody
+    @GetMapping("/{rehabilitationId}/calculate-averages/{compareCnt}")
+    public ResponseEntity<RehabilitationAvgResponse> rehabilitationAvg(@PathVariable("rehabilitationId") Long id,
+                                                                       @PathVariable("compareCnt") int compareCnt) {
+
+        RehabilitationAvgResponse rehabilitationAvg = rehabilitationService.getRehabilitationAvg(id, compareCnt);
+        return ResponseEntity.ok(rehabilitationAvg);
+    }
 
     @PostMapping
     @ResponseBody
@@ -75,6 +80,8 @@ public class RehabilitationController {
 
         return ResponseEntity.ok().build();
     }
+
+
 
 
 }
