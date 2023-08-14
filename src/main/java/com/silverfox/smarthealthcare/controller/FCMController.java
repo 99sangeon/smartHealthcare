@@ -1,5 +1,6 @@
 package com.silverfox.smarthealthcare.controller;
 
+import com.silverfox.smarthealthcare.dto.RehabilitationResponse;
 import com.silverfox.smarthealthcare.entity.Patient;
 import com.silverfox.smarthealthcare.service.FCMService;
 import com.silverfox.smarthealthcare.service.PatientService;
@@ -28,10 +29,12 @@ public class FCMController {
     @RequestMapping("/call/{rehabilitationId}")
     public ResponseEntity call(@PathVariable("rehabilitationId") Long id) throws IOException {
 
+        RehabilitationResponse rehabilitation = rehabilitationService.getRehabilitation(id);
+
         fcmService.sendMessageTo(
                 targetToken,
                 "관리자호출",
-                "전상언" + "님이 호출했습니다.");
+                rehabilitation.getPatient().getName() + "님이 호출했습니다.");
 
         return ResponseEntity.ok().build();
     }
@@ -40,10 +43,12 @@ public class FCMController {
     @RequestMapping("/emergency/{rehabilitationId}")
     public ResponseEntity emergency(@PathVariable("rehabilitationId") Long id) throws IOException {
 
+        RehabilitationResponse rehabilitation = rehabilitationService.getRehabilitation(id);
+
         fcmService.sendMessageTo(
                 targetToken,
                 "안전사고",
-                "전상언" + "님에게 안전사고가 발생했습니다.");
+                rehabilitation.getPatient().getName() + "님에게 안전사고가 발생했습니다.");
 
         return ResponseEntity.ok().build();
 

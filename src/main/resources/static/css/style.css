@@ -228,3 +228,240 @@ footer {
     background-color: #212121;
 }
 
+/*** Table Styles **/
+
+.table-fill {
+    background: white;
+    border-radius:3px;
+    border-collapse: collapse;
+    margin: auto;
+    max-width: 1500px;
+    padding:5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite;
+}
+
+.table-fill th {
+    color:#D5DDE5;;
+    background:#1b1e24;
+    border-bottom:4px solid #9ea7af;
+    border-right: 1px solid #343a45;
+    font-size:16px;
+    font-weight: 400;
+    padding:20px;
+    text-align:left;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    vertical-align:middle;
+}
+
+.table-fill th:first-child {
+    border-top-left-radius:3px;
+}
+
+.table-fill th:last-child {
+    border-top-right-radius:3px;
+    border-right:none;
+}
+
+.table-fill tr {
+    border-top: 1px solid #C1C3D1;
+    border-bottom-: 1px solid #C1C3D1;
+    color:#666B85;
+    font-size:16px;
+    font-weight:normal;
+    text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+.table-fill tr:hover td {
+    background:#4E5066;
+    color:#FFFFFF;
+    border-top: 1px solid #22262e;
+}
+
+.table-fill tr:first-child {
+    border-top:none;
+}
+
+.table-fill tr:last-child {
+    border-bottom:none;
+}
+
+.table-fill tr:nth-child(odd) td {
+    background:#EBEBEB;
+}
+
+.table-fill tr:nth-child(odd):hover td {
+    background:#4E5066;
+}
+
+.table-fill tr:last-child td:first-child {
+    border-bottom-left-radius:3px;
+}
+
+.table-fill tr:last-child td:last-child {
+    border-bottom-right-radius:3px;
+}
+
+.table-fill td {
+    background:#FFFFFF;
+    padding:20px;
+    text-align:left;
+    vertical-align:middle;
+    font-weight:300;
+    font-size:16px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #C1C3D1;
+}
+
+.table-fill td:last-child {
+    border-right: 0px;
+}
+
+.table-fill th.text-left {
+    text-align: left;
+}
+
+.table-fill th.text-center {
+    text-align: center;
+}
+
+.table-fill th.text-right {
+    text-align: right;
+}
+
+.table-fill td.text-left {
+    text-align: left;
+}
+
+.table-fill td.text-center {
+    text-align: center;
+}
+
+.table-fill td.text-right {
+    text-align: right;
+}
+
+
+.table-details {
+    background: white;
+    border-radius:3px;
+    border-collapse: collapse;
+    margin: auto;
+    padding:0px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1),
+    0 0px 10px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite;
+}
+
+.table-details th {
+    color:black;
+    background:#EBEBEB;
+    font-size:16px;
+    font-weight: 500;
+    padding: 10px 20px 10px 10px;
+    border-right: none;
+    text-align:left;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    vertical-align:middle;
+}
+
+.table-details th:first-child {
+    border-top-left-radius:3px;
+}
+
+.table-details th:last-child {
+    border-top-right-radius:3px;
+    border-right:none;
+}
+
+.table-details tr {
+    border-top: 1px solid #C1C3D1;
+    border-bottom-: 1px solid #C1C3D1;
+    color:#666B85;
+    font-size:16px;
+    font-weight:normal;
+    text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+.table-details tr:hover td {
+    background:#4E5066;
+    color:#FFFFFF;
+    border-top: 1px solid #22262e;
+}
+
+.table-details tr:first-child {
+    border-top:none;
+}
+
+.table-details tr:first-child td{
+    border-top:none;
+}
+
+.table-details tr:last-child {
+    border-bottom:none;
+}
+
+.table-details tr:last-child th {
+    border-bottom-left-radius:3px;
+    border-bottom: 1px solid silver;
+}
+
+.table-details tr:last-child td:first-child {
+    border-bottom-left-radius:3px;
+    border-bottom: none;
+}
+
+.table-details tr:last-child td:last-child {
+    border-bottom-right-radius:3px;
+}
+
+.table-details td {
+    background:#FFFFFF;
+    padding: 10px 200px 10px 10px;
+    text-align:left;
+    vertical-align:middle;
+    font-weight:300;
+    font-size:16px;
+    color: black;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #C1C3D1;
+    border-left: none;
+}
+
+.table-details td:last-child {
+    border-right: 0px;
+}
+
+.table-details th.text-left {
+    text-align: left;
+}
+
+.table-details th.text-center {
+    text-align: center;
+}
+
+.table-details th.text-right {
+    text-align: right;
+}
+
+.table-details td.text-left {
+    text-align: left;
+}
+
+.table-details td.text-center {
+    text-align: center;
+}
+
+.table-details td.text-right {
+    text-align: right;
+}
+
+.avgRange {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 200px;
+}
+
+.avgRange input{
+    width: 40px;
+}
