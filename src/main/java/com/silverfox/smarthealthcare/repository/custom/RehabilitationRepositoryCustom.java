@@ -2,6 +2,7 @@ package com.silverfox.smarthealthcare.repository.custom;
 
 import com.silverfox.smarthealthcare.dto.RehabilitationAvgResponse;
 import com.silverfox.smarthealthcare.dto.RehabilitationResponse;
+import com.silverfox.smarthealthcare.entity.Patient;
 import com.silverfox.smarthealthcare.entity.Rehabilitation;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface RehabilitationRepositoryCustom {
 
     Rehabilitation findRehabilitation(Long id);
 
-    Optional<RehabilitationAvgResponse> findRehabilitationAvg(Rehabilitation rehabilitation, int compareCnt);
+    RehabilitationAvgResponse findRehabilitationAvg(Rehabilitation rehabilitation, Patient patient, int compareCnt);
 }

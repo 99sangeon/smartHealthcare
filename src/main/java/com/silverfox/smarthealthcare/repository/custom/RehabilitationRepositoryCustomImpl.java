@@ -1,9 +1,11 @@
 package com.silverfox.smarthealthcare.repository.custom;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.silverfox.smarthealthcare.dto.BiometricAvgResponse;
 import com.silverfox.smarthealthcare.dto.RehabilitationAvgResponse;
+import com.silverfox.smarthealthcare.entity.Patient;
 import com.silverfox.smarthealthcare.entity.Rehabilitation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -49,9 +51,9 @@ public class RehabilitationRepositoryCustomImpl implements RehabilitationReposit
     }
 
     @Override
-    public Optional<RehabilitationAvgResponse> findRehabilitationAvg(Rehabilitation rehab, int compareCnt) {
+    public RehabilitationAvgResponse findRehabilitationAvg(Rehabilitation r, Patient patient, int compareCnt) {
 
-        Optional<RehabilitationAvgResponse> rehabilitationAvg = Optional.ofNullable(queryFactory
+        RehabilitationAvgResponse rehabilitationAvg = queryFactory
                 .select(Projections.constructor(
                         RehabilitationAvgResponse.class,
                         Projections.constructor(
@@ -64,14 +66,19 @@ public class RehabilitationRepositoryCustomImpl implements RehabilitationReposit
                         rehabilitation.consumedCalories.avg().floatValue(),
                         rehabilitation.speed.avg().floatValue(),
                         rehabilitation.travelRange.avg().floatValue(),
-                        rehabilitation.goalTime.avg().floatValue()
+                        rehabilitation.slope.avg().floatValue()
                 ))
                 .from(rehabilitation)
-                .where(rehabilitation.eq(rehab))
-                .orderBy(rehabilitation.id.desc())
-                .offset(1)
-                .limit(compareCnt)
-                .fetchOne());
+                .where(rehabilitation.in(
+                        JPAExpressions.selectFrom(rehabilitation)
+                                .where(rehabilitation.patient.eq(patient)
+                                        .and(rehabilitation.id.lt(r.getId())))
+                                .orderBy(rehabilitation.id.desc())
+                                .limit(compareCnt)
+                        )
+                )
+                .fetchOne();
+
         return rehabilitationAvg;
     }
 

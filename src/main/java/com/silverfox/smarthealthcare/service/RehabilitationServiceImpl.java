@@ -6,6 +6,7 @@ import com.silverfox.smarthealthcare.entity.Patient;
 import com.silverfox.smarthealthcare.entity.Rehabilitation;
 import com.silverfox.smarthealthcare.enums.RehabilitationStatus;
 import com.silverfox.smarthealthcare.exception.PatientNotFoundException;
+import com.silverfox.smarthealthcare.exception.RehabilitationAvgNotFoundException;
 import com.silverfox.smarthealthcare.exception.RehabilitationNotFoundException;
 import com.silverfox.smarthealthcare.repository.PatientRepository;
 import com.silverfox.smarthealthcare.repository.RehabilitationRepository;
@@ -125,15 +126,9 @@ public class RehabilitationServiceImpl implements RehabilitationService{
         Rehabilitation rehabilitation = rehabilitationRepository.findById(id)
                 .orElseThrow(() -> new RehabilitationNotFoundException(id));
 
-        Optional<RehabilitationAvgResponse> rehabilitationAvg = rehabilitationRepositoryCustom.findRehabilitationAvg(rehabilitation, compareCnt);
+        RehabilitationAvgResponse rehabilitationAvg = rehabilitationRepositoryCustom.findRehabilitationAvg(rehabilitation, rehabilitation.getPatient(), compareCnt);
 
-        if(rehabilitationAvg.isEmpty()) {
-            RehabilitationAvgResponse r = new RehabilitationAvgResponse();
-            r.setBiometricAvg(new BiometricAvgResponse(0f,0f,0f));
-            return r;
-        }
-
-       return rehabilitationAvg.get();
+        return rehabilitationAvg;
 
     }
 

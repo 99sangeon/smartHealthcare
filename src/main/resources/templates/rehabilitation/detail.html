@@ -104,27 +104,37 @@
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "http://localhost:8080/rehabilitations/" + rehabilitationId + "/calculate-averages/" + compareCnt, true);  // API 엔드포인트 URL을 여기에 입력
             xhr.onreadystatechange = function() {
-                if (xhr.status === 200) {
-                    var result = xhr.response;
-                    console.log(result);
-                    drawComboChart(result);
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var result = JSON.parse(xhr.response);
+                        drawComboChart(result);
+                    }
+                    else {
+                        alert("데이터를 불러오지 못 했습니다. 다시한번 시도해주세요");
+                    }
                 }
-                else {
-                    alert("데이터를 불러오지 못 했습니다. 다시한번 시도해주세요");
-                }
-            };
+            }
             xhr.send();
         }
+
 
         function drawComboChart(result) {
             var data = new google.visualization.DataTable();
             data.addColumn('string', 'desc');
-            data.addColumn('number', '평균 체온');
-            data.addColumn('number', '평균 BPM');
-            data.addColumn('number', '평균 산소포화도');
+            data.addColumn('number', '체온');
+            data.addColumn('number', 'BPM');
+            data.addColumn('number', '산소포화도');
+            data.addColumn('number', '재활 시간');
+            data.addColumn('number', '재활 거리');
+            data.addColumn('number', '속도');
+            data.addColumn('number', '경사도');
+            data.addColumn('number', '소모 칼로리');
 
-            data.addRow(['과거', result.biometricAvg.temperatureAvg, result.biometricAvg.bpmAvg, result.biometricAvg.oxygenSaturationAvg]);
-            data.addRow(['현재', nowRehab.biometricAvg.temperatureAvg, nowRehab.biometricAvg.bpmAvg, nowRehab.biometricAvg.oxygenSaturationAvg]);
+            data.addRow(['Past', result.biometricAvg.temperatureAvg, result.biometricAvg.bpmAvg, result.biometricAvg.oxygenSaturationAvg, result.actualTimeAvg,
+                                result.travelRangeAvg, result.speedAvg, result.slopeAvg, result.consumedCaloriesAvg]);
+
+            data.addRow(['Now', nowRehab.biometricAvg.temperatureAvg, nowRehab.biometricAvg.bpmAvg, nowRehab.biometricAvg.oxygenSaturationAvg, nowRehab.actualTime,
+                                nowRehab.travelRange, nowRehab.speed, nowRehab.slope, nowRehab.consumedCalories]);
 
 
             var options = {
@@ -132,7 +142,6 @@
                 vAxis: {title: 'Values'},
                 hAxis: {title: 'Compare'},
                 seriesType: 'bars',
-                series: {5: {type: 'line'}}
             };
 
             var chart = new google.visualization.ComboChart(document.getElementById('combo_chart'));
@@ -215,6 +224,14 @@
                     <td th:text="*{travelRange + 'm'}"></td>
                 </tr>
                 <tr>
+                    <th>평균 속도</th>
+                    <td th:text="*{speed + 'm/min'}"></td>
+                </tr>
+                <tr>
+                    <th>평균 경사도</th>
+                    <td th:text="*{slope + '°'}"></td>
+                </tr>
+                <tr>
                     <th>소모 칼로리</th>
                     <td th:text="*{consumedCalories +'Kcal'}"></td>
                 </tr>
@@ -242,16 +259,18 @@
         </div>
     </div>
 
-    <div>
-        <div id="combo_chart" style="width: 80rem; height: 50rem; margin: auto;"></div>
+    <div style="margin: 100px auto;">
         <div>
-            <label>비교 재활 개수</label>
-            <input id="compare_cnt" value="1">
-            <button id="compare_btn" onclick="getAvg()">조회하기</button>
+            <div id="combo_chart" style="width: 80rem; height: 50rem; margin: auto;"></div>
+            <div style="display: flex; justify-content: center;">
+                <div>
+                    <label>최근 재활 개수</label>
+                    <input id="compare_cnt" value="1">
+                    <button id="compare_btn" onclick="getAvg()">조회하기</button>
+                </div>
+            </div>
         </div>
     </div>
-
-
 
 </body>
 </html>

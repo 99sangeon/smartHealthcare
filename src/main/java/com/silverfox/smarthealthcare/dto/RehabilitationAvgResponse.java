@@ -14,7 +14,7 @@ public class RehabilitationAvgResponse {
     private float consumedCaloriesAvg;
     private float speedAvg;
     private float travelRangeAvg;
-    private float goalTimeAvg;
+    private float slopeAvg;
 
     public void setBiometricAvg(BiometricAvgResponse biometricAvg) {
         this.biometricAvg = biometricAvg;
