@@ -1,6 +1,5 @@
 package com.silverfox.smarthealthcare.dto;
 
-import com.silverfox.smarthealthcare.entity.BiometricAvg;
 import com.silverfox.smarthealthcare.enums.RehabilitationStatus;
 import lombok.*;
 

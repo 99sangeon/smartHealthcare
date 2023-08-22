@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FCMService {
 
-    private final String API_URL = "https://fcm.googleapis.com/v1/projects/ssocool-2041d/messages:send";
+    private final String API_URL = "https://fcm.googleapis.com/v1/projects/sso-cool/messages:send";
     private final ObjectMapper objectMapper;
 
     public void sendMessageTo(String targetToken, String title, String body) throws IOException {

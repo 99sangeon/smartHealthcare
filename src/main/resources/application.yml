@@ -20,4 +20,4 @@ logging:
     org.hibernate.type: trace
 
 fcm :
-  target-token: dyEl9MVBT7i4geB58Iaab2:APA91bE5T0mn_Q77vVBx3W9LDq9iZPjbhrdPUuckqQrtDVaTIMeXiMe-fOHLYbErcyNjGGB-KXAvFoeMFPu5Tu_xO5Ss0-hWzLJ2lmKku0B_zu31_gE1yKNK3iB83kcCQSY11jkShTh8
+  target-token: e9oKBCL2RCuPfZnReJCFYc:APA91bE93p1Q_D3EG9-cR5SfBzLU8q6GA0uGbWEVpil9_-Jnspbsmz_UTTvKC1WH7mDYy-Y8AuLzG81eOgs0EQDeoXuc0jozLxmMsDj2bbhIMGVYKYeO7yY5kg9qFRFfXuWxkizvtheh

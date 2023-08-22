@@ -8,6 +8,7 @@ import com.silverfox.smarthealthcare.enums.RehabilitationStatus;
 import com.silverfox.smarthealthcare.exception.PatientNotFoundException;
 import com.silverfox.smarthealthcare.exception.RehabilitationAvgNotFoundException;
 import com.silverfox.smarthealthcare.exception.RehabilitationNotFoundException;
+import com.silverfox.smarthealthcare.exception.RehabilitationStatusException;
 import com.silverfox.smarthealthcare.repository.PatientRepository;
 import com.silverfox.smarthealthcare.repository.RehabilitationRepository;
 import com.silverfox.smarthealthcare.repository.custom.BiometricRepositoryCustom;
@@ -86,6 +87,10 @@ public class RehabilitationServiceImpl implements RehabilitationService{
         Rehabilitation rehabilitation = rehabilitationRepository.findById(id)
                 .orElseThrow(() -> new RehabilitationNotFoundException(id));
 
+        if(rehabilitation.getRehabilitationStatus() != RehabilitationStatus.BEFORE) {
+            throw new RehabilitationStatusException("이미 진행중이거나 종료된 재활입니다.");
+        }
+
         rehabilitation.setStartTime(LocalDateTime.now());
         rehabilitation.setRehabilitationStatus(RehabilitationStatus.ING);
 
@@ -94,8 +99,13 @@ public class RehabilitationServiceImpl implements RehabilitationService{
     @Override
     public void rehabilitationEnd(Long id,  RehabilitationEndRequest endRequest) {
 
+
         Rehabilitation rehabilitation =  rehabilitationRepository.findById(id)
                 .orElseThrow(() -> new RehabilitationNotFoundException(id));
+
+        if(rehabilitation.getRehabilitationStatus() != RehabilitationStatus.ING ) {
+            throw new RehabilitationStatusException("아직 시작 상태가 아니거나 이미 종료된 재활입니다.");
+        }
 
         Patient patient = patientRepository.findById(rehabilitation.getPatient().getId())
                 .orElseThrow(() -> new RehabilitationNotFoundException(id));
