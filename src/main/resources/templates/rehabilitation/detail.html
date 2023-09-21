@@ -120,6 +120,120 @@
 
         function drawComboChart(result) {
             var data = new google.visualization.DataTable();
+
+
+            if(result.biometricAvg.temperatureAvg <= nowRehab.biometricAvg.temperatureAvg) {
+                let comparisonValue = nowRehab.biometricAvg.temperatureAvg - result.biometricAvg.temperatureAvg;
+                let title = '이전재활 대비 평균 체온 ' + comparisonValue.toFixed(2) + '°C 증가했습니다. (↑)';
+                let element = document.getElementById("tempAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.biometricAvg.temperatureAvg - nowRehab.biometricAvg.temperatureAvg;
+                let title = '이전재활 대비 평균 체온 ' + comparisonValue.toFixed(2) + '°C 감소했습니다. (↓)';
+                let element = document.getElementById("tempAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
+            if(result.biometricAvg.bpmAvg <= nowRehab.biometricAvg.bpmAvg) {
+                let comparisonValue = nowRehab.biometricAvg.bpmAvg - result.biometricAvg.bpmAvg;
+                let title = '이전재활 대비 평균 BPM ' + comparisonValue.toFixed(2) + 'bpm 증가했습니다. (↑)';
+                let element = document.getElementById("bpmAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.biometricAvg.bpmAvg - nowRehab.biometricAvg.bpmAvg;
+                let title = '이전재활 대비 평균 BPM ' + comparisonValue.toFixed(2) + 'bpm 감소했습니다. (↓)';
+                let element = document.getElementById("bpmAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
+            if(result.biometricAvg.oxygenSaturationAvg <= nowRehab.biometricAvg.oxygenSaturationAvg) {
+                let comparisonValue = nowRehab.biometricAvg.oxygenSaturationAvg - result.biometricAvg.oxygenSaturationAvg;
+                let title = '이전재활 대비 평균 산소포화도 ' + comparisonValue.toFixed(2) + '% 증가했습니다. (↑)';
+                let element = document.getElementById("oxygenAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.biometricAvg.oxygenSaturationAvg - nowRehab.biometricAvg.oxygenSaturationAvg;
+                let title = '이전재활 대비 평균 산소포화도 ' + comparisonValue.toFixed(2) + '% 감소했습니다. (↓)';
+                let element = document.getElementById("oxygenAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
+            if(result.actualTimeAvg <= nowRehab.actualTime) {
+                let comparisonValue = nowRehab.actualTime - result.actualTimeAvg;
+                let title = '이전재활 대비 재활 시간 ' + comparisonValue + '분 증가했습니다. (↑)';
+                let element = document.getElementById("timeAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.actualTimeAvg - nowRehab.actualTime;
+                let title = '이전재활 대비 재활 시간 ' + comparisonValue + '분 감소했습니다. (↓)';
+                let element = document.getElementById("timeAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
+            if(result.travelRangeAvg <= nowRehab.travelRange) {
+                let comparisonValue = nowRehab.travelRange - result.travelRangeAvg;
+                let title = '이전재활 대비 재활 거리 ' + comparisonValue + 'm 증가했습니다. (↑)';
+                let element = document.getElementById("travelRangeAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.travelRangeAvg - nowRehab.travelRange;
+                let title = '이전재활 대비 재활 거리 ' + comparisonValue + 'm 감소했습니다. (↓)';
+                let element = document.getElementById("travelRangeAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
+            if(result.speedAvg <= nowRehab.speed) {
+                let comparisonValue = nowRehab.speed - result.speedAvg;
+                let title = '이전재활 대비 평균 속도 ' + comparisonValue + 'm 증가했습니다. (↑)';
+                let element = document.getElementById("speedAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.speedAvg - nowRehab.speed;
+                let title = '이전재활 대비 평균 속도 ' + comparisonValue + 'm 감소했습니다. (↓)';
+                let element = document.getElementById("speedAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
+            if(result.slopeAvg <= nowRehab.slope) {
+                let comparisonValue = nowRehab.slope - result.slopeAvg;
+                let title = '이전재활 대비 평균 경사도 ' + comparisonValue + '° 증가했습니다. (↑)';
+                let element = document.getElementById("slopeAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.slopeAvg - nowRehab.slope;
+                let title = '이전재활 대비 평균 경사도 ' + comparisonValue + '° 감소했습니다. (↓)';
+                let element = document.getElementById("slopeAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
+            if(result.consumedCaloriesAvg <= nowRehab.consumedCalories) {
+                let comparisonValue = nowRehab.consumedCalories - result.consumedCaloriesAvg;
+                let title = '이전재활 대비 소모 칼로리 ' + comparisonValue.toFixed(2) + 'Kcal 증가했습니다. (↑)';
+                let element = document.getElementById("calAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-red");
+            } else {
+                let comparisonValue = result.consumedCaloriesAvg - nowRehab.consumedCalories;
+                let title = '이전재활 대비 소모 칼로리 ' + comparisonValue.toFixed(2) + 'Kcal 감소했습니다. (↓)';
+                let element = document.getElementById("calAvgCompare");
+                element.textContent = title;
+                element.classList.add("font-blue");
+            }
+
             data.addColumn('string', 'desc');
             data.addColumn('number', '체온');
             data.addColumn('number', 'BPM');
@@ -264,7 +378,7 @@
             <div id="combo_chart" style="width: 80rem; height: 50rem; margin: auto;"></div>
             <div style="display: flex; justify-content: center;">
                 <div>
-                    <label>최근 재활 개수</label>
+                    <label>최근 재활 횟수</label>
                     <input id="compare_cnt" value="1">
                     <button id="compare_btn" onclick="getAvg()">조회하기</button>
                 </div>
@@ -272,5 +386,39 @@
         </div>
     </div>
 
+    <table class="table-details" style="margin-bottom: 100px;">
+        <tr>
+            <th>체온</th>
+            <td><span id="tempAvgCompare"></span></td>
+        </tr>
+        <tr>
+            <th>BPM</th>
+            <td><span id="bpmAvgCompare"></span></td>
+        </tr>
+        <tr>
+            <th>산소포화도</th>
+            <td><span id="oxygenAvgCompare"></span></td>
+        </tr>
+        <tr>
+            <th>재활시간</th>
+            <td><span id="timeAvgCompare"></span></td>
+        </tr>
+        <tr>
+            <th>재활거리</th>
+            <td><span id="travelRangeAvgCompare"></span></td>
+        </tr>
+        <tr>
+            <th>속도</th>
+            <td><span id="speedAvgCompare"></span></td>
+        </tr>
+        <tr>
+            <th>경사도</th>
+            <td><span id="slopeAvgCompare"></span></td>
+        </tr>
+        <tr>
+            <th>소모칼로리</th>
+            <td><span id="calAvgCompare"></span></td>
+        </tr>
+    </table>
 </body>
 </html>

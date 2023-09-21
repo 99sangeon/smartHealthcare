@@ -464,3 +464,11 @@ footer {
 .avgRange input{
     width: 40px;
 }
+
+.font-red {
+    color: red;
+}
+
+.font-blue {
+    color: blue;
+}
